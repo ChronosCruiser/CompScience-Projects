@@ -1,14 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/** 
+   GrafosAPI TP01
+   grafosAPI.cpp
 
-/* 
- * File:   main.cpp
- * Author: Gustavo Dutra
- *
- * Created on 25 de Fevereiro de 2017, 18:16
+   Purpose: Criar um grafo a partir da leitura de uma arquivo e ser capaz de executar funções basicas como calcular o grau de um vértice, total de arestas
+   e ser capaz de realizar a execução do algorítimo de Hierholzer no grafo criado.
+
+   @author Gustavo Dutra, Reginaldo Filho, Tiago Fonseca.
+   @version 1.0 02/25/17
+
  */
 
 #include <cstdlib>
@@ -27,17 +26,19 @@ struct Grafo{
 	int verticeInicial = 0;
 };
 
-/**/
 Grafo getGrafo(Grafo grafo);
 Grafo getDigrafo(Grafo grafo);
 int calculaGrau(Grafo grafo);
+int calculaGrau(Grafo grafo, int verticeAC);
 void arestaExiste(Grafo grafo);
 int totalArestas(Grafo grafo);
 void hierholzer(Grafo grafo);
 vector<int> hierholzer(Grafo* index, int vertice, vector<int> caminho, int arestas, int contador);
-/*
- * 
+
+
+/** 
  */
+
 int main(int argc, char** argv) {
 
     string linha;
@@ -51,11 +52,17 @@ int main(int argc, char** argv) {
 		grafo = getDigrafo(grafo);
 	}
 	hierholzer(grafo);
-	//calculaGrau(grafo, grafo.vertices);
+	//calculaGrau(grafo);
 	//arestaExiste(grafo, grafo.vertices);
 	//totalArestas(grafo);
 	return 0;
 }
+
+/**
+	Retorna um grafo preenchido após realizar a leitura de arquivo.
+	@param grafo Grafo vazio a ser preenchido pelo método.
+	@return Grafo preenchido após a leitura do arquivo.
+*/
 
 Grafo getGrafo(Grafo grafo){
 	
@@ -100,6 +107,12 @@ Grafo getGrafo(Grafo grafo){
 	return grafo;
 }
 
+/**
+	Retorna um digrafo preenchido após realizar a leitura de arquivo.
+	@param grafo Digrafo vazio a ser preenchido pelo método.
+	@return Digrafo preenchido após a leitura do arquivo.
+*/
+
 Grafo getDigrafo(Grafo grafo){
 
 	string linha, fim;
@@ -139,11 +152,29 @@ Grafo getDigrafo(Grafo grafo){
 	return grafo;
 }
 
+/**
+	Calcula o grau de um vética especifico de um grafo ou digrafo.
+	@param grafo Grafo de onde se encontra o vértice.
+	@return grau Grau do vétice escolhido.
+*/
+
+int calculaGrau(Grafo grafo){
+	int escolhido;
+	cout << "Digite o nodo a ter o grau calculado:";
+	cin >> escolhido;
+	int grau = calculaGrau(grafo,escolhido);
+	return grau;
+}
+
+/**
+	Calcula o grau de um vética especifico de um grafo ou digrafo.
+	@param grafo Grafo de onde se encontra o vértice.
+	@param int verticeAC vértice a ser calculado o grau.
+	@return grau Grau do vétice escolhido.
+*/
 int calculaGrau(Grafo grafo, int verticeAC){
 	int escolhido = verticeAC;
 	int grau = 0;
-	//cout << "Digite o nodo a ter o grau calculado:";
-	//cin >> escolhido;
 	if (-1 < escolhido < grafo.vertices){
 		for (int x = 0; x < grafo.vertices; x++){
 			if (grafo.matriz[x][escolhido] > 0){
@@ -153,6 +184,11 @@ int calculaGrau(Grafo grafo, int verticeAC){
 	}
 	return grau;
 }
+
+/**
+	Verifica a existência de uma aresta no grafo.
+	@param grafo Grafo que será analisado.
+*/
 
 void arestaExiste(Grafo grafo){
 	int nodo1, nodo2;
@@ -168,6 +204,12 @@ void arestaExiste(Grafo grafo){
 		}
 	}
 }
+
+/**
+	Calcula o número total de arestas do grafo.
+	@param grafo Grafo que será analisado.
+	@return aresta Total de arestas do grafo.
+*/
 
 int totalArestas(Grafo grafo){
 	bool completo = true;
@@ -195,6 +237,13 @@ int totalArestas(Grafo grafo){
 	*/
 	return aresta;
 }
+
+/**
+	Executa o algorítimo de Hierholzer em um grafo, em busca de um caminho euleriano. OBS: O vértice inicial é sempre o de menor 
+	índice numérico.
+	@param grafo Grafo onde o algorítimo irá contruir o caminho euleriano.
+	
+*/
 
 void hierholzer(Grafo grafo){
 	string resposta;
@@ -266,6 +315,15 @@ void hierholzer(Grafo grafo){
 		cout << endl;
 	}
 }
+
+/**
+	 Vetor que representa e armazena o caminho euleriano encontrado em um grafo.
+	 @param index Passagem de um grafo por endereço.
+	 @param vertice Vértice onde a execução do void hierholzer se encontra.
+	 @param caminho Caminho que está sendo construido por void hierfholzer.
+	 @param arestas Número total de arestas do vértice a ser analizado.
+	 @param contador Indicador da recurssão
+*/
 
 vector<int> hierholzer(Grafo* index, int vertice, vector<int> caminho, int arestas, int contador){
 	
