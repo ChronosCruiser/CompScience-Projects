@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
 	}else{
 		grafo = getDigrafo(grafo);
 	}
-	//hierholzer(grafo);
+	hierholzer(grafo);
 	//calculaGrau(grafo);
 	//arestaExiste(grafo, grafo.vertices);
 	//totalArestas(grafo);
